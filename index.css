@@ -1,0 +1,104 @@
+.hole{
+	position: relative;
+	display: inline-block;
+	width:200px;
+	height: 200px;
+	border: 2px solid black;
+	background-color: orange;
+	overflow: hidden;
+}
+
+.frog{
+	position: absolute;
+	width:150px;
+	height:150px;
+	background-color: mediumseagreen;
+	display: inline-block;
+	top:0;
+	left: 0;
+	cursor: pointer;
+}
+
+#frog_1{
+	background-color: mediumaquamarine;
+	top: 200px;
+	/* animation: frog_1_move 2s infinite; */
+}
+#frog_2{
+	background-color: yellowgreen;
+	top: 200px;
+	/* animation: frog_1_move 2s infinite; */
+}
+#frog_3{
+	background-color: darkgreen;
+	top: 200px;
+	/* animation: frog_1_move 2s infinite; */
+}
+/* @keyframes frog_1_move{
+	0% { top:0px}
+	50% { top:-150px}
+	100% { top:0px}
+}  */
+ #frog_4{
+	background-color: blueviolet;
+	left: 30px;
+	/* animation: frog4_move 1s infinite; */
+}
+@keyframes frog4_move{
+	0% { top:0px}
+	30% { top:-150px}
+	40% { top:-150px}
+	100% { top:0px}
+}
+
+
+/* 第2個洞 */
+#frog_2{
+	background-color: chocolate;
+	/* animation: frog2_move 2s infinite; */
+}
+@keyframes frog2_move{
+	0% { top:0px}
+	60% { top:0}
+	70% { top:-150px}
+	80% { top:0px}
+	90% { top:-150px}
+	100% { top:0px}
+}
+#frog_5{
+	left: 30px;
+	background-color: burlywood;
+	/* animation: frog5_move 2s infinite; */
+}
+@keyframes frog5_move{
+	0% { top:0px}
+	20% { top:-150px}
+	90% { top:0px}
+	100% { top:0px}
+}
+
+
+/* 第3個洞 */
+#frog_3{
+	background-color: chartreuse;
+	/* animation: frog_3_move 3s infinite; */
+}
+@keyframes frog_3_move{
+	0% { top:0px}
+	30% { top:-150px}
+	35% { top:-150px}
+	90% { top:0px}
+	100% { top:0px}
+}
+#frog_6{
+	left: 30px;
+	background-color: cyan;
+	/* animation: frog6_move 5s infinite; */
+}
+@keyframes frog6_move{
+	0% { top:0px}
+	40% { top:0px}
+	50% { top:-150px}
+	60% { top:-150px}
+	100% { top:0px}
+}
