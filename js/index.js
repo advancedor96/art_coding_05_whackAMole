@@ -191,11 +191,25 @@ showAlert = ()=>{
 
    createjs.Tween.get(alertBg).to({ y: centerY - 80 }, 200).call(function () {
       createjs.Ticker.removeAllEventListeners();
-      var score = new createjs.Text(numFrogHit + '/' + totalFrogs, 'bold 20px Arial', '#EEE');
+
+      let score = new createjs.Text(numFrogHit + '/' + totalFrogs, 'bold 20px Arial', '#EEE');
       score.maxWidth = 1000;    //fix for Chrome 17 
       score.x = 220;
       score.y = 205;
       stage.addChild(score);
+
+
+      let replay = new createjs.Text('replay', 'bold 20px Arial', '#EEE');
+      replay.x = 270;
+      replay.y = 205;
+      replay.addEventListener('click', reload)
+      stage.addChild(replay);
+
+
       stage.update();
    });
+}
+
+reload = ()=>{
+   location.reload();
 }
