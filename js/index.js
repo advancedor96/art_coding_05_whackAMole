@@ -36,16 +36,18 @@ var wormsY = [35, 71, 54, 130, 156, 116, 231, 206];
 
 
 var timerSource;
+function getRandomInt(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-window.addEventListener('resize', resizeCanvas);
 function resizeCanvas(){    
    //記得改成 canvas 的 id
    let canvas = document.querySelector('#WhackAWorm');
    let scale = {x: 1, y: 1};
 
-   //預留10px 的空間
-   scale.x = (window.innerWidth - 10) / canvas.width;
-   scale.y = (window.innerHeight - 10) / canvas.height;
+	//預留10px 的空間
+   scale.x = (window.innerWidth -10) / canvas.width;
+   scale.y = (window.innerHeight -10) / canvas.height;
 
    if (scale.x < scale.y) {
       //視窗的y軸比較大，故以x軸的縮放為主。(以小的為主)
@@ -53,7 +55,8 @@ function resizeCanvas(){
    } else {
       //視窗的x軸比較大，故以y軸的縮放為主。(以小的為主)
       scale = scale.y + ', ' + scale.y;
-   }
+	}
+	// canvas.setAttribute('style', `transform: scale(${scale})`)
    canvas.style.transform = `scale(${scale})`;
  }
 
@@ -194,7 +197,7 @@ showFrog = ()=>{
          scaleY: 1,
          y: wormsY[randomPos]
       }, 100)
-      .wait(5000)
+      .wait(getRandomInt(100, 2000))	//過100~2000ms 才出現下一隻
       .call(function () { 
          console.log('沒打到, 自動消失');
          currentFrog++; showFrog() 
@@ -208,18 +211,23 @@ frogHit = ()=>{
       scaleY: 0.5,
       y: lastFrog.y+29
    }, 100)
-   .wait(1000)
+   .wait(200) //顯示壓扁後200 ms
    .call(function(e){
-      // console.log('打到:',e);
+		// console.log('打到:',e);
+		//馬上消失
       numFrogHit++;
       score.text = numFrogHit + '/' + totalFrogs;
-
+      stage.update();
       lastFrog.removeAllEventListeners('click');
       stage.removeChild(lastFrog);
       lastFrog = null;
       stage.update();
+	})
+	.wait(getRandomInt(200, 4000)) //過200~4000ms 再出現下一隻
+	.call(function(e){
       currentFrog++; showFrog() 
-   })
+
+	})
 
 
 
@@ -252,7 +260,8 @@ showAlert = ()=>{
       stage.update();
    });
 }
-
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('load', init);
 reload = ()=>{
    location.reload();
 }

@@ -1,15 +1,16 @@
 #WhackAWorm{
-   border: 2px solid red;
    transform-origin: top left;
    box-sizing: border-box;
-   display: block;
+	display: block;
+	/* width: 100%; */
+	/* transform: scale(0.8375, 0.8375); */
 }
 
 body{
    margin: 0;
 }
 .wrap{
-   width: 100%;
+   width: 100vw;
    height: 100vh;
    background-color: aqua;
 }
