@@ -20,7 +20,7 @@ let lastFrog;
 let numFrogHit = 0;
 let currentFrog= 0; //worms already shown 
 let FrogsHit = 0;
-let totalFrogs = 3; //total of worms to display
+let totalFrogs = 6; //total of worms to display
 
 
 let stage;
@@ -30,15 +30,35 @@ let centerX = 240;
 let centerY = 160;
 var score;
 
-var wormsX = [80, 198, 338, 70, 225, 376, 142, 356];
-var wormsY = [11, 51, 34, 110, 136, 96, 211, 186];
-
+//已修正
+var wormsX = [83, 198, 338, 70, 225, 376, 142, 356];
+var wormsY = [35, 71, 54, 130, 156, 116, 231, 206];
 
 
 var timerSource;
 
+window.addEventListener('resize', resizeCanvas);
+function resizeCanvas(){    
+   //記得改成 canvas 的 id
+   let canvas = document.querySelector('#WhackAWorm');
+   let scale = {x: 1, y: 1};
+
+   //預留10px 的空間
+   scale.x = (window.innerWidth - 10) / canvas.width;
+   scale.y = (window.innerHeight - 10) / canvas.height;
+
+   if (scale.x < scale.y) {
+      //視窗的y軸比較大，故以x軸的縮放為主。(以小的為主)
+      scale = scale.x + ', ' + scale.x;
+   } else {
+      //視窗的x軸比較大，故以y軸的縮放為主。(以小的為主)
+      scale = scale.y + ', ' + scale.y;
+   }
+   canvas.style.transform = `scale(${scale})`;
+ }
 
 init = ()=>{
+   resizeCanvas();
    stage = new createjs.Stage("WhackAWorm");
    createjs.Touch.enable( stage );
 
@@ -125,7 +145,7 @@ showGameView = ()=>{
          stage.removeChild(titleView);
          titleView = null;
 
-         score = new createjs.Text('0' + '/' + 3, 'bold 17px Arial', '#EEE');
+         score = new createjs.Text('0' + '/' + totalFrogs, 'bold 17px Arial', '#EEE');
          // score.maxWidth = 1000;
          score.x = 58;
          score.y = 5;
@@ -147,40 +167,63 @@ showFrog = ()=>{
          lastFrog = null;
       }
       var randomPos = Math.floor(Math.random() * 8);
-      frog = new createjs.Bitmap('./images/frog.png');
+      let randomPicIdx = Math.floor(Math.random() * 3);
+      let picArr = ['./images/tsai_61px.png', './images/frog_61px.png', './images/back_frog_61px.png' ];
+      frog = new createjs.Bitmap(picArr[randomPicIdx]);
+      // frog = new createjs.Bitmap('./images/fix/frog_61px.png');
+      // frog = new createjs.Bitmap('./images/fix/back_frog_61px.png');
+      // frog.x = wormsX[randomPos];
+      // frog.y = wormsY[randomPos];
+
+      // randomPos = 0;
       frog.x = wormsX[randomPos];
       frog.y = wormsY[randomPos];
-   
-      
-      frog.scaleX = 0.5;
-      frog.scaleY = 0.5;
-   
+
       stage.addChild(frog);
+   
+      stage.update();
       frog.addEventListener('click', frogHit);
       lastFrog = frog;
    
       lastFrog.scaleY = 0.2;
-      lastFrog.y += 42;
+      lastFrog.y += 50;
    
-      stage.update();
+      // stage.update();
    
       createjs.Tween.get(lastFrog).to({
-         scaleY: 0.5,
+         scaleY: 1,
          y: wormsY[randomPos]
-      }, 200)
-      .wait(1000)
-      .call(function () { currentFrog++; showFrog() });
+      }, 100)
+      .wait(5000)
+      .call(function () { 
+         console.log('沒打到, 自動消失');
+         currentFrog++; showFrog() 
+      });
    }
 }
 
 frogHit = ()=>{
-   numFrogHit++;
-   score.text = numFrogHit + '/' + totalFrogs;
+   console.log('打到');
+   createjs.Tween.get(lastFrog, {override:true}).to({
+      scaleY: 0.5,
+      y: lastFrog.y+29
+   }, 100)
+   .wait(1000)
+   .call(function(e){
+      // console.log('打到:',e);
+      numFrogHit++;
+      score.text = numFrogHit + '/' + totalFrogs;
 
-   lastFrog.removeAllEventListeners('click');
-   stage.removeChild(lastFrog);
-   lastFrog = null;
-   stage.update();
+      lastFrog.removeAllEventListeners('click');
+      stage.removeChild(lastFrog);
+      lastFrog = null;
+      stage.update();
+      currentFrog++; showFrog() 
+   })
+
+
+
+
 
 }
 
